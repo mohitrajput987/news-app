@@ -8,6 +8,25 @@
         android:background="@color/very_light_gray"
         tools:context=".feature.newslist.NewsListActivity">
 
+        <EditText
+            android:id="@+id/et_search_keyword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/list_horizontal_padding"
+            android:layout_marginTop="@dimen/list_horizontal_padding"
+            android:autofillHints="name"
+            android:background="@drawable/search_bar_bg"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="5dp"
+            android:elevation="2dp"
+            android:gravity="center_vertical"
+            android:hint="@string/search_for_news"
+            android:inputType="text"
+            android:padding="@dimen/search_bar_padding"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_news"
             android:layout_width="0dp"
@@ -21,7 +40,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/et_search_keyword" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

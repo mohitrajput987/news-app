@@ -50,4 +50,26 @@ class NewsListViewModel @Inject constructor(
 
         }
     }
+
+    fun searchNews(searchKeyword: String) {
+        if (searchKeyword.length < 3) {
+            return
+        }
+        _newsLiveData.value = ViewState.Loading
+        viewModelScope.launch(dispatcherProvider.io) {
+            when (val result = repository.searchNews(searchKeyword)) {
+                is ApiResult.Success -> {
+                    withContext(dispatcherProvider.main) {
+                        val articleEntities = newsMapper.mapFrom(result.data.articles)
+                        _newsLiveData.value = ViewState.Success(articleEntities)
+                    }
+                }
+                is ApiResult.Error -> {
+                    withContext(dispatcherProvider.main) {
+                        _newsLiveData.value = ViewState.Error(result.message)
+                    }
+                }
+            }
+        }
+    }
 }

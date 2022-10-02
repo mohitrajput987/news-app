@@ -3,15 +3,21 @@ package com.otb.news.feature.newslist
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.otb.news.common.LoadingSpinner
 import com.otb.news.common.base.BaseActivity
 import com.otb.news.common.base.DisplaysLoadingSpinner
+import com.otb.news.common.textChanges
 import com.otb.news.databinding.ActivityNewsListBinding
 import com.otb.news.feature.newsdetails.NewsDetailsActivity
 import com.otb.news.network.ViewState
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class NewsListActivity : BaseActivity<ActivityNewsListBinding>(), DisplaysLoadingSpinner {
@@ -28,8 +34,21 @@ class NewsListActivity : BaseActivity<ActivityNewsListBinding>(), DisplaysLoadin
 
     override fun setupView() {
         setupRecyclerView()
+        setupSearchBar()
         observeArticles()
         viewModel.fetchIndianNews()
+    }
+
+    private fun setupSearchBar() {
+        binding.etSearchKeyword.textChanges().debounce(500)
+            .onEach {
+                val searchKeyword = it.toString().trim().lowercase(Locale.ENGLISH)
+                if (searchKeyword.isBlank()) {
+                    viewModel.fetchIndianNews()
+                } else {
+                    viewModel.searchNews(searchKeyword)
+                }
+            }.launchIn(lifecycleScope)
     }
 
     private fun setupRecyclerView() {

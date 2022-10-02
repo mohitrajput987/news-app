@@ -20,6 +20,7 @@
         <activity
             android:name="com.otb.news.feature.newslist.NewsListActivity"
             android:label="@string/top_news"
+            android:windowSoftInputMode="stateHidden"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

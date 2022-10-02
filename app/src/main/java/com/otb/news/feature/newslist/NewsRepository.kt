@@ -32,17 +32,26 @@ class NewsRepository @Inject constructor(
         }
     }
 
+    override suspend fun searchNews(searchKeyword: String): ApiResult<NewsModels.NewsResponse> {
+        val result = getResult { newsApi.searchNews(searchKeyword) }
+        if (result is ApiResult.Success) {
+            newsDao.clear()
+            newsDao.insertAll(result.data.articles)
+        }
+        return result
+    }
+
     private suspend fun refreshResult(
         country: String,
         page: Int, localResult: ApiResult.Success<NewsModels.NewsResponse>
     ): ApiResult<NewsModels.NewsResponse> {
-        val result = getResult { newsApi.fetchNews(country, page) }
-        return if (result is ApiResult.Success) {
+        val networkResult = getResult { newsApi.fetchNews(country, page) }
+        return if (networkResult is ApiResult.Success) {
             newsDao.clear()
-            newsDao.insertAll(result.data.articles)
-            result
+            newsDao.insertAll(networkResult.data.articles)
+            networkResult
         } else if (localResult.data.articles.isEmpty())
-            result
+            networkResult
         else
             localResult
     }
