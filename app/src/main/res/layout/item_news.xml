@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="articleEntity"
+            type="com.otb.news.feature.newslist.NewsModels.ArticleEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:paddingHorizontal="@dimen/list_horizontal_padding"
+        android:paddingVertical="@dimen/list_vertical_padding">
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="@dimen/news_list_image_side"
+            android:layout_height="@dimen/news_list_image_side"
+            android:contentDescription="@string/app_name"
+            app:imageUrl="@{articleEntity.imageUrl}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:placeholder="@{@drawable/ic_launcher_background}"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="2"
+            android:text="@{articleEntity.title}"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="This is the title of my very first PR of this repository. " />
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:text="@{articleEntity.description}"
+            android:textColor="@color/gray"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_image"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            tools:text="This is the title of my very first PR of this repository. This is the title of my very first PR of this repository. This is the title of my very first PR of this repository. This is the title of my very first PR of this repository. This is the title of my very first PR of this repository." />
+
+        <TextView
+            android:id="@+id/tv_published_at"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:gravity="end"
+            android:text="@{@string/published_at_x(articleEntity.publishedAt)}"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_image"
+            app:layout_constraintTop_toBottomOf="@+id/tv_description"
+            tools:text="Published at 30 June 2022 2 pm " />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

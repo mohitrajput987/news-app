@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="articleEntity"
+            type="com.otb.news.feature.newslist.NewsModels.ArticleEntity" />
+    </data>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/list_vertical_padding"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="2"
+                android:paddingHorizontal="@dimen/list_horizontal_padding"
+                android:text="@{articleEntity.title}"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="This is the title of my very first PR of this repository. " />
+
+            <TextView
+                android:id="@+id/tv_opened_by"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif"
+                android:paddingHorizontal="@dimen/list_horizontal_padding"
+                android:text="@{@string/opened_by(articleEntity.author)}"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                tools:text="By Mohit Rajput" />
+
+            <TextView
+                android:id="@+id/tv_published_at"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:paddingHorizontal="@dimen/list_horizontal_padding"
+                android:text="@{articleEntity.publishedAt}"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_opened_by"
+                tools:text="30 June 2022" />
+
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{articleEntity.imageUrl}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_published_at"
+                app:placeholder="@{@drawable/ic_launcher_background}"
+                tools:src="@drawable/ic_launcher_background" />
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/list_vertical_padding"
+                android:fontFamily="sans-serif"
+                android:lineSpacingExtra="5dp"
+                android:paddingHorizontal="@dimen/list_horizontal_padding"
+                android:text="@{articleEntity.content}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_image"
+                tools:text="This is the title of my very first PR of this repository. This is the title of my very first PR of this repository. This is the title of my very first PR of this repository. This is the title of my very first PR of this repository. This is the title of my very first PR of this repository." />
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/list_vertical_padding"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:paddingHorizontal="@dimen/list_horizontal_padding"
+                android:text="@{@string/source_by(articleEntity.source)}"
+                android:textColor="@color/gray"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_content"
+                tools:text="Source : BBC" />
+
+            <TextView
+                android:id="@+id/tv_error"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/list_vertical_padding"
+                android:background="@color/white"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/list_horizontal_padding"
+                android:paddingVertical="@dimen/list_vertical_padding"
+                android:textColor="@color/gray"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

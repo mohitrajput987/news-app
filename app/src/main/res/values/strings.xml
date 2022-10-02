@@ -1,0 +1,7 @@
+<resources>
+    <string name="opened_by">By %s</string>
+    <string name="published_at_x">Published at %s</string>
+    <string name="my_feed">My Feed</string>
+    <string name="top_news">Top News</string>
+    <string name="source_by">Source : %s</string>
+</resources>
