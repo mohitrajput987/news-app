@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.Flow
  */
 class NewsListContact {
     interface Repository {
-        suspend fun fetchNews(country: String, page: Int): Flow<ApiResult<NewsModels.NewsResponse>>
+        suspend fun newsFlow(): Flow<List<NewsModels.ArticleResponseItem>>
+        suspend fun fetchNews(country: String, page: Int): ApiResult<NewsModels.NewsResponse>
         suspend fun searchNews(searchKeyword: String): ApiResult<NewsModels.NewsResponse>
     }
 }

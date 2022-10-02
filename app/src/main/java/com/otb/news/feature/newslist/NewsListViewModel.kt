@@ -9,6 +9,7 @@ import com.otb.news.network.ApiResult
 import com.otb.news.network.ViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -29,25 +30,31 @@ class NewsListViewModel @Inject constructor(
     private val newsMapper = NewsMapper()
     private var pageNum = 1
 
+    init {
+        observeNews()
+    }
+
+    private fun observeNews() {
+        viewModelScope.launch(dispatcherProvider.io) {
+            repository.newsFlow().collectLatest { articles ->
+                withContext(dispatcherProvider.main) {
+                    val articleEntities = newsMapper.mapFrom(articles)
+                    _newsLiveData.value = ViewState.Success(articleEntities)
+                }
+            }
+        }
+    }
+
     fun fetchIndianNews() {
         _newsLiveData.value = ViewState.Loading
         viewModelScope.launch(dispatcherProvider.io) {
-            repository.fetchNews(country = "in", pageNum).collect { result ->
-                when (result) {
-                    is ApiResult.Success -> {
-                        withContext(dispatcherProvider.main) {
-                            val articleEntities = newsMapper.mapFrom(result.data.articles)
-                            _newsLiveData.value = ViewState.Success(articleEntities)
-                        }
-                    }
-                    is ApiResult.Error -> {
-                        withContext(dispatcherProvider.main) {
-                            _newsLiveData.value = ViewState.Error(result.message)
-                        }
+            when (val result = repository.fetchNews(country = "in", pageNum)) {
+                is ApiResult.Error -> {
+                    withContext(dispatcherProvider.main) {
+                        _newsLiveData.value = ViewState.Error(result.message)
                     }
                 }
             }
-
         }
     }
 
@@ -58,12 +65,6 @@ class NewsListViewModel @Inject constructor(
         _newsLiveData.value = ViewState.Loading
         viewModelScope.launch(dispatcherProvider.io) {
             when (val result = repository.searchNews(searchKeyword)) {
-                is ApiResult.Success -> {
-                    withContext(dispatcherProvider.main) {
-                        val articleEntities = newsMapper.mapFrom(result.data.articles)
-                        _newsLiveData.value = ViewState.Success(articleEntities)
-                    }
-                }
                 is ApiResult.Error -> {
                     withContext(dispatcherProvider.main) {
                         _newsLiveData.value = ViewState.Error(result.message)
